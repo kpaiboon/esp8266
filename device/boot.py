@@ -14,6 +14,18 @@ import ubinascii as binascii
 
 VERSION_MAINPROG = 'V0.10--2019--init_code'
 
+networks = (
+    ('TCC11', 'CCBBAA332211', '', '','', ''),
+    ('EW200', '0618055704', '', '','', ''),
+    #('SSID4', 'somepass', '192.168.7.89', '255.255.255.0', '192.168.7.1', '8.8.8.8'),
+    #('NETGEARHome25', 'whateverpasswd', '192.168.1.89', '255.255.255.0','192.168.1.1', '8.8.8.8'),
+    #('myotherwifinet', 'somepass', '192.168.2.89', '255.255.255.0', '192.168.2.1', '8.8.8.8'),
+    #('SSID3', 'whateverpasswd', '192.168.4.89', '255.255.255.0','192.168.4.1', '8.8.8.8'),
+    #('SSID4', 'somepass', '192.168.7.89', '255.255.255.0', '192.168.7.1', '8.8.8.8'),
+)
+
+
+
 changeCPUspeed = True
 if changeCPUspeed:
     machine.freq(80000000) # set the CPU frequency to 80 MHz
@@ -64,9 +76,8 @@ print(mystring)
 print(binascii.hexlify(network.WLAN().config('mac'),':').decode().upper())
 
 ## Simple software WDT implementation
-print('\n\r\nWatchdog') 
+print('\n\r\nwatchdog_init') 
 time.sleep(1)
-#wdt_onedayrebootminute = 55 # 0 or one day reboot in 55 minute
 wdt_onedayrebootminute = 59 # 0 or one day reboot in 55 minute
 wdt_upperlimitminute = 10 # 0 or watchdog reboot in 10 minute
 wdt_wlanreconn = 5 # 0 or wlan watchdog reboot in 5 minute
@@ -124,7 +135,7 @@ def wdt_autoreboot(n):
   print('Dbg: call wdt_ar()')
   if(n>=1):
     wdt_counter_autosoftreboot = n+1
-    print('n+1 : ' + str(wdt_counter_autosoftreboot))
+    print('(n+1) : ' + str(wdt_counter_autosoftreboot))
   else:
     wdt_counter_autosoftreboot = 0
     print('Dis: wdt_counter_autosoftreboot = 0')
@@ -135,15 +146,6 @@ wdt_timer.init(period=60000, mode=machine.Timer.PERIODIC, callback=lambda t:wdt_
 ## END Simple software WDT implementation
 
 
-networks = (
-    #('TCC11', 'CCBBAA332211', '', '','', ''),
-    ('EW200', '0618055704', '', '','', ''),
-    #('SSID4', 'somepass', '192.168.7.89', '255.255.255.0', '192.168.7.1', '8.8.8.8'),
-    #('NETGEARHome25', 'whateverpasswd', '192.168.1.89', '255.255.255.0','192.168.1.1', '8.8.8.8'),
-    #('myotherwifinet', 'somepass', '192.168.2.89', '255.255.255.0', '192.168.2.1', '8.8.8.8'),
-    #('SSID3', 'whateverpasswd', '192.168.4.89', '255.255.255.0','192.168.4.1', '8.8.8.8'),
-    #('SSID4', 'somepass', '192.168.7.89', '255.255.255.0', '192.168.7.1', '8.8.8.8'),
-)
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(False)         # deactivate the interface
@@ -177,10 +179,10 @@ while (cnt < len(networks)) and (not iswlanready):
     print('S>NETMASK: ' + WL_NETMASK)
     print('S>GATEWAY: ' + WL_GATEWAY)
     print('S>DNS: ' + WL_DNS)
-    wlan.ifconfig(WL_IPADDRESS, WL_NETMASK, WL_GATEWAY, WL_DNS) #some firmwae not support overide fix ip
+    wlan.ifconfig(WL_IPADDRESS, WL_NETMASK, WL_GATEWAY, WL_DNS) #depends firmware
   
   start = time.ticks_ms()
-  time.sleep(5) # this ensures a full conenct
+  time.sleep(5) # this ensures a full connect
   to = 50000 # 30 x [1000 ms]
   while (not wlan.isconnected()) and time.ticks_diff(time.ticks_ms(), start) < to:
     print('wlan Act: ' + str(wlan.active()) + ' code: ' + str(wlan.status())  )
@@ -204,7 +206,8 @@ else:
   machine.reset()
 
 micropython.mem_info()
-micropython.qstr_info() 
+micropython.qstr_info()
+
 print('Next App..')
 
 i = 5
@@ -212,11 +215,5 @@ while i>0:
   i = i -1
   time.sleep(1)
   print('.' + str(i))
-
-
-
-
-
-
 
 
