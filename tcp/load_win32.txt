@@ -1,0 +1,6 @@
+:again
+echo "start...."
+TIMEOUT /T 10
+python ./load.py
+goto again
+
