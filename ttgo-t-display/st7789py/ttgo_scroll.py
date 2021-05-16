@@ -75,6 +75,8 @@ def main():
         backlight=Pin(4, Pin.OUT),
         rotation=0)
 
+    print('tft.width:', str(tft.width), 'tft.height:', str(tft.height),'pixeles')
+
     last_line = tft.height - font.HEIGHT
     tfa = 40
     tfb = 40
