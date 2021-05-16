@@ -76,6 +76,36 @@ def main():
         rotation=0)
 
     print('tft.width:', str(tft.width), 'tft.height:', str(tft.height),'pixeles')
+    
+    ### test font & lines
+    tft.fill(st7789.BLACK)
+
+    row = 0
+    tft.text(font, "abcdefghijklmnopqrst", 0, row, st7789.RED)
+    row += font.HEIGHT
+
+    tft.text(font, "abcdefghij", 0, row, st7789.GREEN)
+    row += font.HEIGHT
+
+    tft.text(font, "abcd", 0, row, st7789.BLUE)
+    row += font.HEIGHT
+    
+    vfont = font
+    tft.text(vfont, "abc123456", 0, row, st7789.CYAN)
+    row += vfont.HEIGHT
+
+    vfont = font
+    tft.text(vfont, "qwertyuiop[]", 0, row, st7789.MAGENTA)
+    row += vfont.HEIGHT
+    
+    vfont = font
+    tft.text(vfont, "!@#$%^&*()_+", 0, row, st7789.YELLOW)
+    row += vfont.HEIGHT
+    
+    
+    utime.sleep(5.01)
+    ### test font & lines.END
+    
 
     last_line = tft.height - font.HEIGHT
     tfa = 40
@@ -106,6 +136,5 @@ def main():
             scroll = 0
 
         utime.sleep(0.01)
-
 
 main()
