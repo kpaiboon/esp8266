@@ -19,7 +19,7 @@ except Exception as exception:
     print(exception, False)
     
 try:
-    from romfonts import vga2_8x8 as font
+    from romfonts import vga2_8x8 as font_h5
 except Exception as exception:
     print(exception, False)
     
@@ -29,7 +29,7 @@ except Exception as exception:
     print(exception, False)
 
 try:
-    from romfonts import vga2_8x16 as font
+    from romfonts import vga2_8x16 as font_h3
 except Exception as exception:
     print(exception, False)
 
@@ -44,7 +44,7 @@ except Exception as exception:
     print(exception, False)
     
 try:
-    from romfonts import vga2_bold_16x16 as font
+    from romfonts import vga1_bold_16x32 as font_h1
 except Exception as exception:
     print(exception, False)
 
@@ -77,6 +77,22 @@ def main():
 
     print('tft.width:', str(tft.width), 'tft.height:', str(tft.height),'pixeles')
     
+    ## Date time==##
+    days = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday')
+    months = ('Jan', 'Feb', 'March', 'April', 'May', 'June', 'July','Aug', 'Sept', 'Oct', 'Nov', 'Dec')
+    
+    sdays = ('Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa','Su')
+    smonths = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug', 'Sep', 'Oct', 'Nov', 'Dec')
+    
+    
+    tm= utime.gmtime()
+    print('UTC time：%s' %str(tm))
+    text_datetime = '{} {} {} {}'.format(sdays[tm[6]], tm[2], smonths[tm[1] - 1], tm[0])
+    print('UTC datetime = %s' %str(text_datetime))
+    
+
+    
+    
     ### test font & lines
     tft.fill(st7789.BLACK)
 
@@ -90,9 +106,22 @@ def main():
     tft.text(font, "abcd", 0, row, st7789.BLUE)
     row += font.HEIGHT
     
-    vfont = font
-    tft.text(vfont, "abc123456", 0, row, st7789.CYAN)
+    vfont = font_h1
+    tft.text(vfont, text_datetime, 0, row, st7789.CYAN)
     row += vfont.HEIGHT
+    
+    vfont = font
+    tft.text(vfont, text_datetime, 0, row, st7789.CYAN)
+    row += vfont.HEIGHT
+    
+    vfont = font_h3
+    tft.text(vfont, text_datetime, 0, row, st7789.CYAN)
+    row += vfont.HEIGHT
+    
+    vfont = font_h5
+    tft.text(vfont, text_datetime, 0, row, st7789.CYAN)
+    row += vfont.HEIGHT
+    
 
     vfont = font
     tft.text(vfont, "qwertyuiop[]", 0, row, st7789.MAGENTA)
@@ -115,6 +144,8 @@ def main():
         dc=Pin(16, Pin.OUT),
         backlight=Pin(4, Pin.OUT),
         rotation=0)
+    print('tft.width:', str(tft.width), 'tft.height:', str(tft.height),'pixeles')
+
 
     last_line = tft.height - font.HEIGHT
     tfa = 40
